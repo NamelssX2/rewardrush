@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Claim exclusive rewards, sweepstakes entries, and premium offers on RewardRush — your trusted US rewards destination." />
+  <meta name="keywords" content="sweepstakes, rewards, email submit offers, win prizes, claim rewards, usa offers" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://rewardrush.online/" />
+
+  <meta property="og:title" content="RewardRush — Claim Exclusive Rewards & Sweepstakes" />
+  <meta property="og:description" content="Enter exclusive sweepstakes, claim premium rewards, and unlock email submit offers." />
+  <meta property="og:url" content="https://rewardrush.online/" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "RewardRush",
+    "url": "https://rewardrush.online",
+    "description": "Exclusive rewards, sweepstakes, and premium offers."
+  }
+  </script>
+
+  <title>RewardRush — Claim Exclusive Rewards & Sweepstakes</title>
+
+  <style>
+    :root {
+      --bg-primary: #07070d;
+      --bg-secondary: #0d0d17;
+      --bg-card: rgba(20, 20, 35, 0.72);
+      --bg-glass: rgba(255, 255, 255, 0.04);
+      --border-glass: rgba(255, 215, 0, 0.12);
+      --border-subtle: rgba(255, 255, 255, 0.06);
+
+      /* Theme color — admin panel will override via CSS variables */
+      --theme-primary: #f5c518;
+      --theme-secondary: #e6a800;
+      --theme-glow: rgba(245, 197, 24, 0.35);
+      --theme-soft: rgba(245, 197, 24, 0.08);
+
+      --text-primary: #f0f0f5;
+      --text-secondary: #a0a0b8;
+      --text-muted: #6b6b82;
+
+      --accent-green: #22c55e;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255,255,255,0.03);
+      --shadow-hover: 0 16px 56px rgba(245, 197, 24, 0.25), 0 0 0 1px rgba(245,197,24,0.15);
+
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -40%; left: -20%;
+      width: 80vw; height: 80vh;
+      background: radial-gradient(circle, var(--theme-soft) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+      animation: ambientPulse 12s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -30%; right: -20%;
+      width: 70vw; height: 70vh;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.04) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+      animation: ambientPulse 15s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes ambientPulse {
+      0% { opacity: 0.5; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.15); }
+    }
+
+    a { text-decoration: none; color: inherit; transition: color var(--transition-fast); }
+    img { max-width: 100%; height: auto; display: block; }
+    ul, ol { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; outline: none; background: none; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--theme-primary), var(--theme-secondary));
+      border-radius: 4px;
+    }
+
+    /* ===================== NAVBAR ===================== */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      z-index: 1000; padding: 0 24px;
+      transition: all var(--transition-smooth);
+      background: transparent;
+    }
+
+    .navbar.scrolled {
+      background: rgba(7, 7, 13, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.35rem; font-weight: 800;
+      letter-spacing: -0.5px; z-index: 1001;
+    }
+
+    .nav-logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: #07070d; font-weight: 900;
+      box-shadow: 0 4px 16px var(--theme-glow);
+      animation: logoGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoGlow {
+      0% { box-shadow: 0 4px 16px rgba(245, 197, 24, 0.25); }
+      100% { box-shadow: 0 4px 28px rgba(245, 197, 24, 0.5); }
+    }
+
+    .nav-logo span {
+      background: linear-gradient(90deg, var(--theme-primary), #fff, var(--theme-primary));
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer { to { background-position: 200% center; } }
+
+    .nav-links { display: flex; align-items: center; gap: 8px; }
+
+    .nav-links a {
+      padding: 8px 16px; border-radius: var(--radius-sm);
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .nav-links a:hover { color: var(--theme-primary); background: var(--theme-soft); }
+
+    .nav-cta {
+      padding: 10px 24px !important;
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary)) !important;
+      color: #07070d !important;
+      font-weight: 700 !important;
+      border-radius: 50px !important;
+      box-shadow: 0 4px 20px var(--theme-glow);
+      transition: all var(--transition-smooth) !important;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 32px var(--theme-glow) !important;
+    }
+
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      padding: 8px; z-index: 1001;
+    }
+
+    .nav-toggle span {
+      width: 24px; height: 2px;
+      background: var(--text-primary); border-radius: 2px;
+      transition: all var(--transition-smooth);
+    }
+
+    .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      position: relative; z-index: 1;
+      padding: 160px 24px 60px;
+      text-align: center; max-width: 900px; margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 20px; border-radius: 50px;
+      background: var(--theme-soft);
+      border: 1px solid var(--border-glass);
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--theme-primary);
+      letter-spacing: 0.5px; text-transform: uppercase;
+      margin-bottom: 28px;
+      animation: fadeInUp 0.8s ease both;
+    }
+
+    .hero-badge .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-green);
+      animation: pulseDot 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+      50% { opacity: 0.6; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 900; line-height: 1.12;
+      letter-spacing: -1.5px; margin-bottom: 20px;
+      animation: fadeInUp 0.8s ease 0.1s both;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--theme-primary), #fff8d6, var(--theme-secondary));
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.18rem);
+      color: var(--text-secondary);
+      max-width: 640px; margin: 0 auto 36px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.3s both;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 16px 36px;
+      border-radius: 50px; font-size: 1rem; font-weight: 700;
+      transition: all var(--transition-smooth);
+      position: relative; overflow: hidden;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+      color: #07070d;
+      box-shadow: 0 6px 28px var(--theme-glow);
+    }
+
+    .btn-primary::before {
+      content: ''; position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn-primary:hover::before { left: 100%; }
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 48px var(--theme-glow);
+    }
+
+    .btn-outline {
+      border: 1.5px solid var(--border-glass);
+      color: var(--text-primary);
+      background: var(--bg-glass);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--theme-primary);
+      color: var(--theme-primary);
+      background: var(--theme-soft);
+      transform: translateY(-2px);
+    }
+
+    .btn-arrow { transition: transform var(--transition-smooth); }
+    .btn:hover .btn-arrow { transform: translateX(4px); }
+
+    /* ===================== COUNTDOWN ===================== */
+    .countdown-bar {
+      max-width: 1280px; margin: 0 auto 40px; padding: 0 24px;
+    }
+
+    .countdown-inner {
+      display: flex; align-items: center; justify-content: center;
+      gap: 20px; flex-wrap: wrap;
+      padding: 20px 32px; border-radius: var(--radius-lg);
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(16px);
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .countdown-label {
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--theme-primary);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .countdown-timer { display: flex; gap: 12px; }
+
+    .countdown-unit {
+      display: flex; flex-direction: column; align-items: center;
+      min-width: 58px; padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--theme-soft);
+      border: 1px solid var(--border-glass);
+    }
+
+    .countdown-unit .num {
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--theme-primary); line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown-unit .label {
+      font-size: 0.62rem; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ===================== FILTER TOOLBAR (NEW) ===================== */
+    .toolbar {
+      max-width: 1280px; margin: 0 auto 40px; padding: 0 24px;
+      display: flex; flex-direction: column; gap: 20px;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .toolbar-top {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+
+    .search-box {
+      position: relative; flex: 1;
+      min-width: 240px; max-width: 420px;
+    }
+
+    .search-box input {
+      width: 100%; padding: 14px 18px 14px 46px;
+      border-radius: 50px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      font-family: inherit; font-size: 0.92rem;
+      transition: all var(--transition-smooth);
+    }
+
+    .search-box input::placeholder { color: var(--text-muted); }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--theme-primary);
+      background: var(--theme-soft);
+      box-shadow: 0 0 0 4px var(--theme-soft);
+    }
+
+    .search-box::before {
+      content: '🔍';
+      position: absolute; left: 18px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem; opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .sort-select {
+      padding: 14px 40px 14px 18px;
+      border-radius: 50px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      font-family: inherit; font-size: 0.9rem;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f5c518' stroke-width='3'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      transition: all var(--transition-smooth);
+    }
+
+    .sort-select:focus {
+      outline: none;
+      border-color: var(--theme-primary);
+      background-color: var(--theme-soft);
+    }
+
+    .sort-select option { background: var(--bg-secondary); color: var(--text-primary); }
+
+    .category-pills {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      padding-bottom: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .category-pills::-webkit-scrollbar { display: none; }
+
+    .cat-pill {
+      padding: 9px 20px; border-radius: 50px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 0.85rem; font-weight: 600;
+      white-space: nowrap;
+      transition: all var(--transition-smooth);
+    }
+
+    .cat-pill:hover {
+      color: var(--theme-primary);
+      border-color: var(--border-glass);
+      background: var(--theme-soft);
+    }
+
+    .cat-pill.active {
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+      color: #07070d;
+      border-color: transparent;
+      box-shadow: 0 4px 16px var(--theme-glow);
+    }
+
+    /* ===================== SECTION HEADERS ===================== */
+    .section {
+      position: relative; z-index: 1;
+      padding: 80px 24px; max-width: 1280px; margin: 0 auto;
+    }
+
+    .section-header { text-align: center; margin-bottom: 56px; }
+
+    .section-header h2 {
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      font-weight: 800; letter-spacing: -0.8px; margin-bottom: 14px;
+    }
+
+    .section-header h2 .gold {
+      background: linear-gradient(135deg, var(--theme-primary), #ffe68a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-header p {
+      font-size: 1.05rem; color: var(--text-secondary);
+      max-width: 560px; margin: 0 auto;
+    }
+
+    /* ===================== CARDS GRID ===================== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+      padding: 0 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ===================== OFFER CARD ===================== */
+    .offer-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
+      transition: all var(--transition-bounce);
+      box-shadow: var(--shadow-card);
+      animation: cardReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(32px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .offer-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(245, 197, 24, 0.3);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .offer-card.featured {
+      border-color: var(--theme-primary);
+      box-shadow: 0 8px 40px var(--theme-glow);
+    }
+
+    .offer-card.featured::after {
+      content: '⭐ FEATURED';
+      position: absolute;
+      top: 14px; right: 14px;
+      z-index: 3;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 0.65rem; font-weight: 800;
+      background: rgba(7,7,13,0.85);
+      color: var(--theme-primary);
+      letter-spacing: 1px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-glass);
+    }
+
+    .card-image-wrap {
+      position: relative;
+      width: 100%; aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a1a2e, #16162a);
+    }
+
+    .card-image-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .offer-card:hover .card-image-wrap img { transform: scale(1.08); }
+
+    .card-image-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(7,7,13,0.85) 100%);
+      pointer-events: none;
+    }
+
+    .card-badge {
+      position: absolute; top: 14px; left: 14px; z-index: 2;
+      padding: 6px 14px; border-radius: 50px;
+      font-size: 0.7rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      backdrop-filter: blur(10px);
+      animation: badgePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes badgePop {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .badge-hot {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+    }
+
+    .badge-new {
+      background: linear-gradient(135deg, var(--accent-green), #16a34a);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
+    }
+
+    .badge-premium {
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+      color: #07070d;
+      box-shadow: 0 4px 16px var(--theme-glow);
+    }
+
+    .badge-exclusive {
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .card-body {
+      padding: 22px 24px 26px;
+      position: relative; z-index: 2;
+    }
+
+    .card-category {
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.2px;
+      color: var(--theme-primary); margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 8px;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-desc {
+      font-size: 0.88rem; color: var(--text-secondary);
+      line-height: 1.6; margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 18px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .card-reward {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--accent-green);
+    }
+
+    .card-entries { font-size: 0.78rem; color: var(--text-muted); }
+
+    .card-cta {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; width: 100%;
+      padding: 14px 24px; border-radius: 50px;
+      font-size: 0.92rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+      color: #07070d;
+      transition: all var(--transition-smooth);
+      box-shadow: 0 4px 20px var(--theme-glow);
+      position: relative; overflow: hidden;
+    }
+
+    .card-cta::before {
+      content: ''; position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .card-cta:hover::before { left: 100%; }
+    .card-cta:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 36px var(--theme-glow);
+    }
+
+    .card-cta:active { transform: translateY(0) scale(0.98); }
+
+    /* ===================== EMPTY STATE ===================== */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem; margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--text-secondary); margin-bottom: 8px;
+    }
+
+    .empty-state p { font-size: 0.9rem; }
+
+    /* ===================== SKELETON ===================== */
+    .card-skeleton {
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    .skeleton-img {
+      width: 100%; aspect-ratio: 16 / 10;
+      background: linear-gradient(90deg, #1a1a2e 25%, #222240 50%, #1a1a2e 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.5s infinite;
+    }
+
+    .skeleton-body { padding: 22px 24px 26px; }
+
+    .skeleton-line {
+      height: 14px; border-radius: 6px;
+      background: linear-gradient(90deg, #1a1a2e 25%, #222240 50%, #1a1a2e 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.5s infinite;
+      margin-bottom: 12px;
+    }
+
+    .skeleton-line.w60 { width: 60%; }
+    .skeleton-line.w80 { width: 80%; }
+    .skeleton-line.w100 { width: 100%; }
+    .skeleton-line.btn { height: 48px; border-radius: 50px; margin-top: 16px; }
+
+    @keyframes skeletonShimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ===================== FEATURES ===================== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px; max-width: 1280px; margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .feature-card {
+      padding: 32px 28px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(16px);
+      transition: all var(--transition-smooth);
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-glass);
+      background: var(--theme-soft);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+
+    .feature-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin: 0 auto 18px;
+      box-shadow: 0 6px 24px var(--theme-glow);
+    }
+
+    .feature-card h3 {
+      font-size: 1.08rem; font-weight: 700;
+      margin-bottom: 10px; color: var(--text-primary);
+    }
+
+    .feature-card p {
+      font-size: 0.88rem; color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===================== FAQ ===================== */
+    .faq-list {
+      max-width: 800px; margin: 0 auto; padding: 0 24px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .faq-item {
+      border-radius: var(--radius-md);
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      transition: all var(--transition-smooth);
+    }
+
+    .faq-item:hover { border-color: var(--border-glass); }
+
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; width: 100%; padding: 20px 24px;
+      font-size: 0.98rem; font-weight: 600;
+      color: var(--text-primary); text-align: left;
+      transition: color var(--transition-fast);
+    }
+
+    .faq-question:hover { color: var(--theme-primary); }
+
+    .faq-icon {
+      flex-shrink: 0; width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--theme-soft);
+      border: 1px solid var(--border-glass);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--theme-primary);
+      transition: all var(--transition-smooth); font-weight: 700;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: var(--theme-primary); color: #07070d;
+    }
+
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+      padding: 0 24px;
+    }
+
+    .faq-item.open .faq-answer { max-height: 400px; padding: 0 24px 22px; }
+
+    .faq-answer p {
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;
+    }
+
+    /* ===================== FOOTER ===================== */
+    .footer {
+      position: relative; z-index: 1;
+      margin-top: 60px; padding: 60px 24px 32px;
+      background: linear-gradient(180deg, transparent, rgba(13, 13, 23, 0.95));
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .footer-inner { max-width: 1280px; margin: 0 auto; }
+
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+
+    .footer-brand h3 {
+      font-size: 1.3rem; font-weight: 800; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .footer-brand p {
+      font-size: 0.88rem; color: var(--text-secondary);
+      line-height: 1.7; max-width: 320px; margin-bottom: 20px;
+    }
+
+    .footer-social { display: flex; gap: 10px; }
+
+    .footer-social a {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--text-secondary);
+      transition: all var(--transition-smooth);
+    }
+
+    .footer-social a:hover {
+      background: var(--theme-soft);
+      border-color: var(--border-glass);
+      color: var(--theme-primary);
+      transform: translateY(-3px);
+    }
+
+    .footer-col h4 {
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.2px;
+      color: var(--theme-primary); margin-bottom: 18px;
+    }
+
+    .footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+
+    .footer-col a {
+      font-size: 0.88rem; color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .footer-col a:hover { color: var(--theme-primary); padding-left: 4px; }
+
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+      padding-top: 28px; border-top: 1px solid var(--border-subtle);
+    }
+
+    .footer-bottom p { font-size: 0.82rem; color: var(--text-muted); }
+
+    .footer-disclaimer {
+      font-size: 0.75rem; color: var(--text-muted);
+      max-width: 600px; line-height: 1.6; margin-top: 12px;
+    }
+
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 1024px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed; top: 0; right: -100%;
+        width: min(320px, 80vw); height: 100vh;
+        background: rgba(7, 7, 13, 0.97);
+        backdrop-filter: blur(24px);
+        flex-direction: column; align-items: flex-start;
+        justify-content: center; padding: 80px 32px;
+        gap: 12px;
+        transition: right var(--transition-smooth);
+        border-left: 1px solid var(--border-subtle);
+      }
+
+      .nav-links.open { right: 0; }
+
+      .nav-links a { font-size: 1.05rem; padding: 14px 20px; width: 100%; }
+
+      .nav-cta { width: 100%; text-align: center; margin-top: 8px; }
+
+      .nav-toggle { display: flex; }
+
+      .hero { padding: 130px 20px 50px; }
+      .hero h1 { letter-spacing: -1px; }
+
+      .hero-actions { flex-direction: column; width: 100%; }
+      .hero-actions .btn { width: 100%; }
+
+      .toolbar-top { flex-direction: column; align-items: stretch; }
+      .search-box { max-width: 100%; }
+      .sort-select { width: 100%; }
+
+      .cards-grid { grid-template-columns: 1fr; padding: 0 16px; }
+      .section { padding: 60px 16px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .countdown-inner { flex-direction: column; gap: 14px; padding: 18px 20px; }
+      .countdown-unit { min-width: 50px; padding: 6px 10px; }
+      .countdown-unit .num { font-size: 1.2rem; }
+    }
+
+    @media (max-width: 380px) {
+      .hero h1 { font-size: 1.8rem; }
+      .card-body { padding: 18px 18px 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid var(--theme-primary);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" aria-label="RewardRush Home">
+        <div class="nav-logo-icon" aria-hidden="true">R</div>
+        <span>RewardRush</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#offers">Offers</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#faq">FAQ</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+        <a href="#offers" class="nav-cta">Claim Reward</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <header class="hero" role="banner">
+    <div class="hero-badge">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="heroBadgeText">Live Rewards Available Now</span>
+    </div>
+
+    <h1 id="heroTitle">
+      Your Next <span class="highlight">Big Win</span> Starts Here
+    </h1>
+
+    <p id="heroSubtitle">
+      Claim exclusive sweepstakes entries, unlock premium email-submit offers, and discover rewards curated for US users.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#offers" class="btn btn-primary">
+        Explore Offers <span class="btn-arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="#how-it-works" class="btn btn-outline">How It Works</a>
+    </div>
+  </header>
+
+  <!-- ==================== COUNTDOWN ==================== -->
+  <section class="countdown-bar" id="countdownSection" aria-label="Offer countdown timer">
+    <div class="countdown-inner">
+      <span class="countdown-label">⏳ Offers refresh in</span>
+      <div class="countdown-timer" id="countdown" aria-live="polite">
+        <div class="countdown-unit">
+          <span class="num" id="cd-hours">00</span>
+          <span class="label">Hours</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="num" id="cd-minutes">00</span>
+          <span class="label">Minutes</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="num" id="cd-seconds">00</span>
+          <span class="label">Seconds</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== OFFERS ==================== -->
+  <main>
+    <section class="section" id="offers" aria-labelledby="offers-heading" style="padding-top: 20px;">
+      <div class="section-header reveal">
+        <h2 id="offers-heading">Exclusive <span class="gold">Rewards & Offers</span></h2>
+        <p>Hand-picked sweepstakes and email-submit offers. New rewards added daily.</p>
+      </div>
+
+      <!-- Toolbar: search, sort, category filters — all admin-driven -->
+      <div class="toolbar reveal">
+        <div class="toolbar-top">
+          <div class="search-box">
+            <input
+              type="search"
+              id="searchInput"
+              placeholder="Search offers, rewards, categories..."
+              aria-label="Search offers"
+            />
+          </div>
+          <select class="sort-select" id="sortSelect" aria-label="Sort offers">
+            <option value="order">Default Order</option>
+            <option value="newest">Newest First</option>
+            <option value="reward-high">Highest Value</option>
+            <option value="popular">Most Popular</option>
+            <option value="az">A → Z</option>
+          </select>
+        </div>
+        <div class="category-pills" id="categoryPills" role="tablist" aria-label="Offer categories">
+          <!-- Category pills injected by JS -->
+        </div>
+      </div>
+
+      <div class="cards-grid" id="cardsGrid" role="list" aria-label="Available reward offers">
+        <!-- Skeletons shown while loading -->
+        <div class="card-skeleton">
+          <div class="skeleton-img"></div>
+          <div class="skeleton-body">
+            <div class="skeleton-line w60"></div>
+            <div class="skeleton-line w100"></div>
+            <div class="skeleton-line w80"></div>
+            <div class="skeleton-line btn"></div>
+          </div>
+        </div>
+        <div class="card-skeleton">
+          <div class="skeleton-img"></div>
+          <div class="skeleton-body">
+            <div class="skeleton-line w60"></div>
+            <div class="skeleton-line w100"></div>
+            <div class="skeleton-line w80"></div>
+            <div class="skeleton-line btn"></div>
+          </div>
+        </div>
+        <div class="card-skeleton">
+          <div class="skeleton-img"></div>
+          <div class="skeleton-body">
+            <div class="skeleton-line w60"></div>
+            <div class="skeleton-line w100"></div>
+            <div class="skeleton-line w80"></div>
+            <div class="skeleton-line btn"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== HOW IT WORKS ==================== -->
+    <section class="section" id="how-it-works" aria-labelledby="how-heading">
+      <div class="section-header reveal">
+        <h2 id="how-heading">How It <span class="gold">Works</span></h2>
+        <p>Three simple steps to claim your reward. No complexity, no hidden tricks.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">🎯</div>
+          <h3>1. Pick Your Offer</h3>
+          <p>Browse our curated selection of sweepstakes and email-submit offers. Each card shows exactly what you can win.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">✉️</div>
+          <h3>2. Submit Your Email</h3>
+          <p>Click the claim button and complete the quick email submission. Takes less than 30 seconds.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">🎉</div>
+          <h3>3. Claim Your Reward</h3>
+          <p>You're entered! Winners are notified directly. Some offers provide instant digital rewards.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FAQ ==================== -->
+    <section class="section" id="faq" aria-labelledby="faq-heading">
+      <div class="section-header reveal">
+        <h2 id="faq-heading">Frequently Asked <span class="gold">Questions</span></h2>
+        <p>Everything you need to know about RewardRush offers.</p>
+      </div>
+
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Is RewardRush free to use?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, 100% free. You never pay anything to enter sweepstakes or claim email-submit offers on RewardRush. We earn a small commission from our partners when you complete an offer — at no extra cost to you.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How do I know the offers are legitimate?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Every offer on RewardRush is sourced from established affiliate networks and verified advertisers. We only list offers from reputable partners with clear terms and privacy policies.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Will my email be shared with third parties?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Your email is submitted directly to the advertiser of the specific offer you choose. Each advertiser has their own privacy policy, which is linked on their offer page.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How often are new offers added?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>New offers are added daily, sometimes multiple times per day. Check back frequently or bookmark RewardRush to catch the best rewards before they expire.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Do I need to be a US resident?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Most of our offers are targeted to US residents (USA geo). Some offers may have additional eligibility requirements shown on the offer page itself.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <div class="nav-logo-icon" aria-hidden="true">R</div>
+            RewardRush
+          </h3>
+          <p>
+            Your trusted destination for exclusive sweepstakes, premium rewards, and curated email-submit offers.
+          </p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook" rel="nofollow noopener">f</a>
+            <a href="#" aria-label="Twitter / X" rel="nofollow noopener">𝕏</a>
+            <a href="#" aria-label="Instagram" rel="nofollow noopener">ig</a>
+            <a href="#" aria-label="YouTube" rel="nofollow noopener">▶</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#offers">Offers</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="/about.html">About Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms & Conditions</a></li>
+            <li><a href="/disclaimer.html">Disclaimer</a></li>
+            <li><a href="/contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="#faq">Help Center</a></li>
+            <li><a href="/disclaimer.html">Disclosure</a></li>
+            <li><a href="/admin.html">Admin Panel</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> RewardRush.online — All rights reserved.</p>
+        <p class="footer-disclaimer">
+          Affiliate Disclosure: RewardRush earns commissions from partner offers. This does not affect your cost. Offers are for US residents only. Must be 18+ to participate.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    /* ============================================================
+       REWARDRUSH — ADMIN-DRIVEN INDEX PAGE
+       ------------------------------------------------------------
+       Data source priority:
+       1. data/offers.json       (production — server file)
+       2. localStorage           (live preview from admin panel)
+       3. DEFAULT_OFFERS         (hardcoded fallback)
+       ============================================================ */
+
+    (function () {
+      'use strict';
+
+      /* ---------- CONFIG ---------- */
+      const STORAGE_KEY = 'rewardrush_offers';
+      const SETTINGS_KEY = 'rewardrush_settings';
+      const DATA_URL = 'data/offers.json';
+
+      /* ---------- DEFAULT FALLBACK DATA ---------- */
+      /* In production, the admin panel writes to offers.json / localStorage.
+         This is only used if neither source is available. */
+      const DEFAULT_OFFERS = [
+        {
+          id: 'offer-001',
+          title: 'Win a $500 Amazon Gift Card',
+          description: 'Enter your email for a chance to win a $500 Amazon gift card. Instant entry, no purchase necessary.',
+          image: 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=600&h=400&fit=crop&q=80',
+          category: 'Gift Card',
+          badge: 'HOT',
+          badgeType: 'hot',
+          rewardValue: 500,
+          rewardText: '$500 Value',
+          entries: 12847,
+          ctaText: 'Claim Entry',
+          link: 'https://rewardrush.online/offer/amazon-gift-card',
+          featured: false,
+          active: true,
+          order: 1,
+          createdAt: '2026-01-10'
+        },
+        {
+          id: 'offer-002',
+          title: 'Free iPhone 16 Pro Giveaway',
+          description: 'Submit your email to enter the iPhone 16 Pro sweepstakes. Winner drawn monthly.',
+          image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&h=400&fit=crop&q=80',
+          category: 'Tech',
+          badge: 'PREMIUM',
+          badgeType: 'premium',
+          rewardValue: 1199,
+          rewardText: '$1,199 Value',
+          entries: 8291,
+          ctaText: 'Enter Now',
+          link: 'https://rewardrush.online/offer/iphone-16-pro',
+          featured: true,
+          active: true,
+          order: 2,
+          createdAt: '2026-01-08'
+        },
+        {
+          id: 'offer-003',
+          title: '$250 Walmart Shopping Spree',
+          description: 'Quick email submit for a chance to win a $250 Walmart gift card. US residents only.',
+          image: 'https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=600&h=400&fit=crop&q=80',
+          category: 'Shopping',
+          badge: 'NEW',
+          badgeType: 'new',
+          rewardValue: 250,
+          rewardText: '$250 Value',
+          entries: 5104,
+          ctaText: 'Grab Offer',
+          link: 'https://rewardrush.online/offer/walmart-spree',
+          featured: false,
+          active: true,
+          order: 3,
+          createdAt: '2026-01-12'
+        },
+        {
+          id: 'offer-004',
+          title: 'Win a Dream Vacation — $2,000 Travel Voucher',
+          description: 'Enter for a chance to win a $2,000 travel voucher to anywhere in the US. Email entry only.',
+          image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop&q=80',
+          category: 'Travel',
+          badge: 'HOT',
+          badgeType: 'hot',
+          rewardValue: 2000,
+          rewardText: '$2,000 Value',
+          entries: 19532,
+          ctaText: 'Start Entering',
+          link: 'https://rewardrush.online/offer/dream-vacation',
+          featured: false,
+          active: true,
+          order: 4,
+          createdAt: '2026-01-05'
+        },
+        {
+          id: 'offer-005',
+          title: 'Free $100 Target Gift Card',
+          description: 'Complete a quick email submission and get entered to win a $100 Target gift card.',
+          image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&q=80',
+          category: 'Gift Card',
+          badge: 'NEW',
+          badgeType: 'new',
+          rewardValue: 100,
+          rewardText: '$100 Value',
+          entries: 3876,
+          ctaText: 'Claim Now',
+          link: 'https://rewardrush.online/offer/target-gift-card',
+          featured: false,
+          active: true,
+          order: 5,
+          createdAt: '2026-01-13'
+        },
+        {
+          id: 'offer-006',
+          title: 'Gaming PC Giveaway — RTX 4090 Build',
+          description: 'Enter to win a custom gaming PC with RTX 4090. Email submit required for entry.',
+          image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&h=400&fit=crop&q=80',
+          category: 'Gaming',
+          badge: 'PREMIUM',
+          badgeType: 'premium',
+          rewardValue: 3500,
+          rewardText: '$3,500 Value',
+          entries: 7412,
+          ctaText: 'Enter Giveaway',
+          link: 'https://rewardrush.online/offer/gaming-pc',
+          featured: false,
+          active: true,
+          order: 6,
+          createdAt: '2026-01-09'
+        }
+      ];
+
+      /* ---------- DEFAULT SETTINGS ---------- */
+      const DEFAULT_SETTINGS = {
+        heroBadge: 'Live Rewards Available Now',
+        heroTitle: 'Your Next Big Win Starts Here',
+        heroSubtitle: 'Claim exclusive sweepstakes entries, unlock premium email-submit offers, and discover rewards curated for US users.',
+        themePrimary: '#f5c518',
+        themeSecondary: '#e6a800',
+        countdownEnabled: true,
+        countdownHours: 6
+      };
+
+      /* ---------- STATE ---------- */
+      let allOffers = [];
+      let filteredOffers = [];
+      let activeCategory = 'All';
+      let searchTerm = '';
+      let sortMode = 'order';
+      let settings = { ...DEFAULT_SETTINGS };
+
+      /* ---------- DOM ---------- */
+      const navbar = document.getElementById('navbar');
+      const navToggle = document.getElementById('navToggle');
+      const navLinks = document.getElementById('navLinks');
+      const cardsGrid = document.getElementById('cardsGrid');
+      const categoryPills = document.getElementById('categoryPills');
+      const searchInput = document.getElementById('searchInput');
+      const sortSelect = document.getElementById('sortSelect');
+      const yearEl = document.getElementById('year');
+      const countdownSection = document.getElementById('countdownSection');
+
+      /* ==========================================================
+         DATA LOADING
+         ========================================================== */
+      async function loadData() {
+        let offers = null;
+        let loadedSettings = null;
+
+        // 1. Try server JSON file first
+        try {
+          const res = await fetch(DATA_URL + '?t=' + Date.now(), { cache: 'no-store' });
+          if (res.ok) {
+            const json = await res.json();
+            offers = Array.isArray(json) ? json : json.offers;
+            loadedSettings = json.settings || null;
+          }
+        } catch (e) { /* silent — fallback below */ }
+
+        // 2. localStorage override (admin preview / newer edits)
+        try {
+          const localRaw = localStorage.getItem(STORAGE_KEY);
+          const localSettingsRaw = localStorage.getItem(SETTINGS_KEY);
+          if (localRaw) {
+            const local = JSON.parse(localRaw);
+            const localUpdated = local.updatedAt || 0;
+            const serverUpdated = (loadedSettings && loadedSettings.updatedAt) || 0;
+
+            // If local is newer OR server failed, use local
+            if (!offers || localUpdated > serverUpdated) {
+              offers = local.offers || local;
+            }
+          }
+          if (localSettingsRaw) {
+            loadedSettings = { ...(loadedSettings || {}), ...JSON.parse(localSettingsRaw) };
+          }
+        } catch (e) { /* silent */ }
+
+        // 3. Fallback to defaults
+        if (!offers || !offers.length) offers = DEFAULT_OFFERS;
+        settings = { ...DEFAULT_SETTINGS, ...(loadedSettings || {}) };
+
+        return offers;
+      }
+
+      /* ==========================================================
+         THEME + SETTINGS APPLY
+         ========================================================== */
+      function applySettings() {
+        // Theme colors
+        if (settings.themePrimary) {
+          document.documentElement.style.setProperty('--theme-primary', settings.themePrimary);
+        }
+        if (settings.themeSecondary) {
+          document.documentElement.style.setProperty('--theme-secondary', settings.themeSecondary);
+        }
+
+        // Hero text
+        const badgeEl = document.getElementById('heroBadgeText');
+        const titleEl = document.getElementById('heroTitle');
+        const subtitleEl = document.getElementById('heroSubtitle');
+        if (badgeEl && settings.heroBadge) badgeEl.textContent = settings.heroBadge;
+        if (titleEl && settings.heroTitle) titleEl.innerHTML = settings.heroTitle;
+        if (subtitleEl && settings.heroSubtitle) subtitleEl.textContent = settings.heroSubtitle;
+
+        // Countdown visibility
+        if (countdownSection && settings.countdownEnabled === false) {
+          countdownSection.style.display = 'none';
+        }
+
+        // Update page title if provided
+        if (settings.metaTitle) document.title = settings.metaTitle;
+        if (settings.metaDescription) {
+          const metaDesc = document.querySelector('meta[name="description"]');
+          if (metaDesc) metaDesc.setAttribute('content', settings.metaDescription);
+        }
+      }
+
+      /* ==========================================================
+         OFFER FILTERING / SORTING
+         ========================================================== */
+      function applyFiltersAndSort() {
+        let list = allOffers.filter((o) => o.active !== false);
+
+        // Schedule filter
+        const now = Date.now();
+        list = list.filter((o) => {
+          if (o.startDate && new Date(o.startDate).getTime() > now) return false;
+          if (o.endDate && new Date(o.endDate).getTime() < now) return false;
+          return true;
+        });
+
+        // Category
+        if (activeCategory !== 'All') {
+          list = list.filter((o) => (o.category || '') === activeCategory);
+        }
+
+        // Search
+        if (searchTerm) {
+          const q = searchTerm.toLowerCase();
+          list = list.filter((o) =>
+            (o.title || '').toLowerCase().includes(q) ||
+            (o.description || '').toLowerCase().includes(q) ||
+            (o.category || '').toLowerCase().includes(q) ||
+            (o.badge || '').toLowerCase().includes(q)
+          );
+        }
+
+        // Sort
+        switch (sortMode) {
+          case 'newest':
+            list.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+            break;
+          case 'reward-high':
+            list.sort((a, b) => (b.rewardValue || 0) - (a.rewardValue || 0));
+            break;
+          case 'popular':
+            list.sort((a, b) => (b.entries || 0) - (a.entries || 0));
+            break;
+          case 'az':
+            list.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+            break;
+          default:
+            list.sort((a, b) => {
+              // Featured always first
+              if (a.featured && !b.featured) return -1;
+              if (!a.featured && b.featured) return 1;
+              return (a.order || 999) - (b.order || 999);
+            });
+        }
+
+        filteredOffers = list;
+      }
+
+      /* ==========================================================
+         CATEGORY PILLS
+         ========================================================== */
+      function renderCategoryPills() {
+        if (!categoryPills) return;
+
+        const active = allOffers.filter((o) => o.active !== false);
+        const cats = ['All', ...new Set(active.map((o) => o.category).filter(Boolean))];
+
+        categoryPills.innerHTML = cats
+          .map(
+            (cat) => `
+            <button class="cat-pill ${cat === activeCategory ? 'active' : ''}"
+                    data-cat="${escapeAttr(cat)}"
+                    role="tab"
+                    aria-selected="${cat === activeCategory}">
+              ${escapeHtml(cat)}
+            </button>
+          `
+          )
+          .join('');
+
+        categoryPills.querySelectorAll('.cat-pill').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            activeCategory = btn.dataset.cat;
+            renderCategoryPills();
+            renderCards();
+          });
+        });
+      }
+
+      /* ==========================================================
+         CARD RENDERING
+         ========================================================== */
+      function renderCards() {
+        if (!cardsGrid) return;
+
+        applyFiltersAndSort();
+
+        if (!filteredOffers.length) {
+          cardsGrid.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">🔍</div>
+              <h3>No offers found</h3>
+              <p>Try a different category or search term.</p>
+            </div>`;
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        filteredOffers.forEach((offer, index) => {
+          const card = document.createElement('article');
+          card.className = 'offer-card' + (offer.featured ? ' featured' : '');
+          card.setAttribute('role', 'listitem');
+          card.style.animationDelay = `${index * 0.06}s`;
+
+          const badgeHTML = offer.badge
+            ? `<span class="card-badge badge-${escapeAttr(offer.badgeType || 'hot')}">${escapeHtml(offer.badge)}</span>`
+            : '';
+
+          const entriesText = offer.entries
+            ? `${formatNumber(offer.entries)} entered`
+            : '';
+
+          const rewardText = offer.rewardText || (offer.rewardValue ? `$${offer.rewardValue} Value` : '');
+
+          card.innerHTML = `
+            <div class="card-image-wrap">
+              ${badgeHTML}
+              <img
+                src="${escapeAttr(offer.image || '')}"
+                alt="${escapeAttr(offer.title || '')}"
+                loading="lazy"
+                onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%231a1a2e%22 width=%22600%22 height=%22400%22/%3E%3Ctext fill=%22%23f5c518%22 font-family=%22Arial%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3ERewardRush%3C/text%3E%3C/svg%3E';"
+              />
+            </div>
+            <div class="card-body">
+              <div class="card-category">${escapeHtml(offer.category || 'Offer')}</div>
+              <h3 class="card-title">${escapeHtml(offer.title || '')}</h3>
+              <p class="card-desc">${escapeHtml(offer.description || '')}</p>
+              <div class="card-meta">
+                <span class="card-reward">💰 ${escapeHtml(rewardText)}</span>
+                ${entriesText ? `<span class="card-entries">${entriesText}</span>` : ''}
+              </div>
+              <a
+                href="${escapeAttr(offer.link || '#')}"
+                class="card-cta"
+                data-offer-id="${escapeAttr(offer.id || '')}"
+                target="_blank"
+                rel="nofollow noopener sponsored"
+                aria-label="${escapeAttr(offer.ctaText || 'Claim')} — ${escapeAttr(offer.title || '')}"
+              >
+                ${escapeHtml(offer.ctaText || 'Claim Now')}
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          `;
+
+          fragment.appendChild(card);
+        });
+
+        cardsGrid.innerHTML = '';
+        cardsGrid.appendChild(fragment);
+
+        // Attach click tracking
+        cardsGrid.querySelectorAll('.card-cta').forEach((btn) => {
+          btn.addEventListener('click', () => trackClick(btn.dataset.offerId));
+        });
+      }
+
+      /* ==========================================================
+         CLICK TRACKING (stores in localStorage for admin analytics)
+         ========================================================== */
+      function trackClick(offerId) {
+        if (!offerId) return;
+        try {
+          const raw = localStorage.getItem('rewardrush_clicks') || '{}';
+          const clicks = JSON.parse(raw);
+          clicks[offerId] = (clicks[offerId] || 0) + 1;
+          clicks._lastClick = Date.now();
+          localStorage.setItem('rewardrush_clicks', JSON.stringify(clicks));
+        } catch (e) { /* silent */ }
+      }
+
+      /* ==========================================================
+         HELPERS
+         ========================================================== */
+      function escapeHtml(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function escapeAttr(s) {
+        return escapeHtml(s);
+      }
+
+      function formatNumber(n) {
+        return Number(n).toLocaleString('en-US');
+      }
+
+      /* ==========================================================
+         NAVBAR / MENU / FAQ / COUNTDOWN
+         ========================================================== */
+      function handleNavbarScroll() {
+        if (!navbar) return;
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+      }
+
+      function setupMobileMenu() {
+        if (!navToggle || !navLinks) return;
+        navToggle.addEventListener('click', () => {
+          const isOpen = navLinks.classList.toggle('open');
+          navToggle.classList.toggle('active', isOpen);
+          navToggle.setAttribute('aria-expanded', String(isOpen));
+          document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        navLinks.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+          });
+        });
+      }
+
+      function setupFAQ() {
+        const items = document.querySelectorAll('.faq-item');
+        items.forEach((item) => {
+          const q = item.querySelector('.faq-question');
+          if (!q) return;
+          q.addEventListener('click', () => {
+            const wasOpen = item.classList.contains('open');
+            items.forEach((o) => {
+              o.classList.remove('open');
+              const btn = o.querySelector('.faq-question');
+              if (btn) btn.setAttribute('aria-expanded', 'false');
+            });
+            if (!wasOpen) {
+              item.classList.add('open');
+              q.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      }
+
+      function setupCountdown() {
+        const hoursEl = document.getElementById('cd-hours');
+        const minutesEl = document.getElementById('cd-minutes');
+        const secondsEl = document.getElementById('cd-seconds');
+        if (!hoursEl || !minutesEl || !secondsEl) return;
+
+        const cycle = settings.countdownHours || 6;
+        const now = new Date();
+        const target = new Date(now);
+        const nextMark = Math.ceil((now.getHours() + 1) / cycle) * cycle;
+        target.setHours(nextMark, 0, 0, 0);
+        if (target <= now) {
+          target.setDate(target.getDate() + 1);
+          target.setHours(0, 0, 0, 0);
+        }
+
+        function tick() {
+          const diff = target - new Date();
+          if (diff <= 0) {
+            hoursEl.textContent = '00';
+            minutesEl.textContent = '00';
+            secondsEl.textContent = '00';
+            return;
+          }
+          hoursEl.textContent = String(Math.floor(diff / 3600000)).padStart(2, '0');
+          minutesEl.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+          secondsEl.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+        }
+
+        tick();
+        setInterval(tick, 1000);
+      }
+
+      function setupScrollReveal() {
+        const els = document.querySelectorAll('.reveal');
+        if (!els.length) return;
+        if ('IntersectionObserver' in window) {
+          const obs = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((e) => {
+                if (e.isIntersecting) {
+                  e.target.classList.add('visible');
+                  obs.unobserve(e.target);
+                }
+              });
+            },
+            { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+          );
+          els.forEach((el) => obs.observe(el));
+        } else {
+          els.forEach((el) => el.classList.add('visible'));
+        }
+      }
+
+      function setupToolbar() {
+        if (searchInput) {
+          let timer;
+          searchInput.addEventListener('input', (e) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+              searchTerm = e.target.value.trim();
+              renderCards();
+            }, 250);
+          });
+        }
+        if (sortSelect) {
+          sortSelect.addEventListener('change', (e) => {
+            sortMode = e.target.value;
+            renderCards();
+          });
+        }
+      }
+
+      function setYear() {
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+      }
+
+      /* ==========================================================
+         INIT
+         ========================================================== */
+      async function init() {
+        allOffers = await loadData();
+        applySettings();
+        renderCategoryPills();
+        renderCards();
+        setupToolbar();
+        setupMobileMenu();
+        setupFAQ();
+        setupCountdown();
+        setupScrollReveal();
+        setYear();
+        window.addEventListener('scroll', handleNavbarScroll, { passive: true });
+        handleNavbarScroll();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+
+</body>
+</html>
