@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Admin Panel — RewardRush</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔐%3C/text%3E%3C/svg%3E" />
+<style>
+:root {
+  --bg: #07070d;
+  --bg-2: #0d0d17;
+  --card: rgba(20, 20, 35, 0.72);
+  --glass: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-gold: rgba(245, 197, 24, 0.25);
+  --gold: #f5c518;
+  --gold-2: #e6a800;
+  --gold-glow: rgba(245, 197, 24, 0.35);
+  --gold-soft: rgba(245, 197, 24, 0.08);
+  --text: #f0f0f5;
+  --text-2: #a0a0b8;
+  --text-3: #6b6b82;
+  --green: #22c55e;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --orange: #f59e0b;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; top: -40%; left: -20%;
+  width: 80vw; height: 80vh;
+  background: radial-gradient(circle, var(--gold-soft) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea, select { font-family: inherit; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--gold), var(--gold-2)); border-radius: 5px; }
+
+/* ============ SCREENS ============ */
+.screen {
+  position: relative; z-index: 1;
+  min-height: 100vh; display: none;
+  padding: 24px;
+}
+.screen.active { display: block; }
+
+/* ============ LOGIN / SETUP ============ */
+.auth-wrap {
+  max-width: 460px; margin: 8vh auto 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.auth-icon {
+  width: 64px; height: 64px; margin: 0 auto 20px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; color: #07070d;
+  box-shadow: 0 8px 32px var(--gold-glow);
+}
+.auth-wrap h1 {
+  font-size: 1.6rem; font-weight: 800;
+  text-align: center; margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+.auth-wrap .subtitle {
+  text-align: center; color: var(--text-2);
+  font-size: 0.9rem; margin-bottom: 32px;
+}
+.field { margin-bottom: 18px; }
+.field label {
+  display: block; font-size: 0.78rem;
+  font-weight: 600; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+.field input, .field textarea, .field select {
+  width: 100%; padding: 13px 16px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: all var(--transition);
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  box-shadow: 0 0 0 4px var(--gold-soft);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--text-3); }
+.field textarea { resize: vertical; min-height: 90px; }
+.field .hint { font-size: 0.75rem; color: var(--text-3); margin-top: 6px; }
+.field .hint a { color: var(--gold); text-decoration: underline; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 13px 24px;
+  border-radius: 50px; font-size: 0.95rem; font-weight: 700;
+  transition: all var(--transition);
+  position: relative; overflow: hidden;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  color: #07070d;
+  box-shadow: 0 6px 24px var(--gold-glow);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px var(--gold-glow);
+}
+.btn-primary:disabled {
+  opacity: 0.5; cursor: not-allowed;
+  transform: none !important;
+}
+.btn-full { width: 100%; }
+.btn-ghost {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-soft);
+}
+.btn-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--red);
+}
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--red);
+}
+.btn-sm { padding: 8px 16px; font-size: 0.82rem; }
+.btn-icon {
+  width: 38px; height: 38px; padding: 0;
+  border-radius: 10px; font-size: 1rem;
+}
+
+.alert {
+  padding: 12px 16px; border-radius: 12px;
+  font-size: 0.85rem; margin-bottom: 18px;
+  display: none;
+}
+.alert.show { display: block; animation: fadeUp 0.3s ease both; }
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+.alert-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+}
+.alert-info {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #93c5fd;
+}
+
+/* ============ DASHBOARD ============ */
+.topbar {
+  max-width: 1280px; margin: 0 auto 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 16px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+}
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.brand-logo {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; color: #07070d; font-size: 1.1rem;
+}
+.brand-info h2 { font-size: 1rem; font-weight: 800; }
+.brand-info p { font-size: 0.75rem; color: var(--text-3); }
+.topbar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.tabs {
+  max-width: 1280px; margin: 0 auto 24px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  backdrop-filter: blur(20px);
+}
+.tab {
+  padding: 10px 22px; border-radius: 50px;
+  font-size: 0.88rem; font-weight: 600;
+  color: var(--text-2);
+  transition: all var(--transition);
+}
+.tab:hover { color: var(--text); background: var(--glass); }
+.tab.active {
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  color: #07070d;
+  box-shadow: 0 4px 16px var(--gold-glow);
+}
+
+.tab-content { display: none; max-width: 1280px; margin: 0 auto; }
+.tab-content.active { display: block; animation: fadeUp 0.4s ease both; }
+
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  backdrop-filter: blur(20px);
+  margin-bottom: 20px;
+}
+.section-card h3 {
+  font-size: 1.1rem; font-weight: 800;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-card .desc {
+  font-size: 0.85rem; color: var(--text-2);
+  margin-bottom: 22px;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ============ OFFER CARDS IN ADMIN ============ */
+.offers-toolbar {
+  display: flex; gap: 12px; margin-bottom: 20px;
+  align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+}
+.offers-toolbar .search-mini {
+  flex: 1; min-width: 200px; max-width: 340px;
+  padding: 11px 16px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+.offers-toolbar .search-mini:focus {
+  outline: none; border-color: var(--gold);
+  background: var(--gold-soft);
+}
+
+.admin-offers-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.admin-offer-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all var(--transition);
+  position: relative;
+}
+.admin-offer-card:hover {
+  border-color: var(--border-gold);
+  transform: translateY(-2px);
+}
+.admin-offer-card.disabled { opacity: 0.5; }
+.admin-offer-img {
+  width: 100%; aspect-ratio: 16/10; object-fit: cover;
+  background: #1a1a2e;
+  display: block;
+}
+.admin-offer-body { padding: 14px 16px 16px; }
+.admin-offer-cat {
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--gold); margin-bottom: 4px;
+}
+.admin-offer-title {
+  font-size: 0.92rem; font-weight: 700;
+  margin-bottom: 4px; line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.admin-offer-meta {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  font-size: 0.72rem; color: var(--text-3);
+  margin-bottom: 12px;
+}
+.admin-offer-actions {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.mini-badge {
+  padding: 3px 8px; border-radius: 6px;
+  font-size: 0.65rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.mini-badge.hot { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+.mini-badge.new { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+.mini-badge.premium { background: var(--gold-soft); color: var(--gold); }
+.mini-badge.exclusive { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; }
+.mini-badge.featured { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+.mini-badge.off { background: rgba(107, 107, 130, 0.2); color: var(--text-3); }
+
+/* ============ MODAL ============ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(7, 7, 13, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  display: none;
+  align-items: flex-start; justify-content: center;
+  padding: 24px; overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  max-width: 720px; width: 100%;
+  margin: 40px auto;
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0;
+  background: var(--bg-2);
+  z-index: 2;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.modal-header h3 { font-size: 1.1rem; font-weight: 800; }
+.modal-close {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--glass); border: 1px solid var(--border);
+  color: var(--text-2); font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+}
+.modal-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--red);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+.modal-body { padding: 24px; }
+.modal-footer {
+  padding: 18px 24px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 10px; justify-content: flex-end;
+  position: sticky; bottom: 0;
+  background: var(--bg-2);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ============ IMAGE UPLOAD ============ */
+.image-uploader {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 16px;
+  background: var(--glass);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+.image-preview {
+  width: 140px; height: 88px;
+  border-radius: 10px;
+  background: #1a1a2e;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); font-size: 0.75rem;
+  border: 1px solid var(--border);
+}
+.image-preview img { width: 100%; height: 100%; object-fit: cover; }
+.image-controls { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.image-controls input[type="text"] {
+  width: 100%; padding: 10px 14px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text);
+  font-size: 0.85rem;
+}
+.image-controls input[type="text"]:focus {
+  outline: none; border-color: var(--gold);
+}
+.image-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+.image-buttons button, .image-buttons label {
+  padding: 7px 14px; border-radius: 8px;
+  font-size: 0.78rem; font-weight: 600;
+  background: var(--glass); border: 1px solid var(--border);
+  color: var(--text-2); cursor: pointer;
+  transition: all var(--transition);
+}
+.image-buttons button:hover, .image-buttons label:hover {
+  border-color: var(--gold); color: var(--gold);
+  background: var(--gold-soft);
+}
+
+/* ============ TOGGLE SWITCH ============ */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0;
+}
+.toggle-row .label-wrap label {
+  font-size: 0.9rem; font-weight: 600;
+  text-transform: none; letter-spacing: 0; color: var(--text);
+  margin-bottom: 2px; display: block;
+}
+.toggle-row .label-wrap p {
+  font-size: 0.75rem; color: var(--text-3);
+}
+.switch {
+  position: relative; width: 48px; height: 28px;
+  display: inline-block; flex-shrink: 0;
+}
+.switch input { display: none; }
+.switch .slider {
+  position: absolute; inset: 0;
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: 28px; cursor: pointer;
+  transition: all var(--transition);
+}
+.switch .slider::before {
+  content: ''; position: absolute;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--text-3);
+  left: 3px; top: 50%; transform: translateY(-50%);
+  transition: all var(--transition);
+}
+.switch input:checked + .slider {
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  border-color: transparent;
+}
+.switch input:checked + .slider::before {
+  left: 23px; background: #07070d;
+}
+
+/* ============ COLOR PICKER ============ */
+.color-picker-row {
+  display: flex; align-items: center; gap: 12px;
+}
+.color-picker-row input[type="color"] {
+  width: 48px; height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--glass);
+}
+.color-picker-row input[type="text"] {
+  flex: 1; padding: 12px 16px;
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text);
+  font-family: monospace; font-size: 0.9rem;
+}
+
+/* ============ TOAST ============ */
+.toast-container {
+  position: fixed; top: 20px; right: 20px;
+  z-index: 9999;
+  display: flex; flex-direction: column; gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  font-size: 0.88rem; font-weight: 600;
+  display: flex; align-items: center; gap: 10px;
+  min-width: 260px; max-width: 400px;
+  pointer-events: auto;
+  animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.toast.hide { animation: toastOut 0.3s ease both; }
+.toast.success { border-color: rgba(34, 197, 94, 0.4); }
+.toast.error { border-color: rgba(239, 68, 68, 0.4); }
+.toast.info { border-color: rgba(59, 130, 246, 0.4); }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastOut {
+  to { opacity: 0; transform: translateX(40px); }
+}
+
+/* ============ PUBLISH TAB ============ */
+.publish-status {
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.publish-status .status-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+.publish-status .status-row:last-child { border-bottom: none; }
+.status-badge {
+  padding: 4px 12px; border-radius: 50px;
+  font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.status-badge.ok { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+.status-badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--orange); }
+.status-badge.fail { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+
+.publish-buttons {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+
+.log-box {
+  margin-top: 16px;
+  padding: 16px;
+  background: #06060b;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  color: var(--text-2);
+  max-height: 240px; overflow-y: auto;
+  line-height: 1.6;
+}
+.log-box .log-line { padding: 2px 0; }
+.log-box .log-ok { color: var(--green); }
+.log-box .log-err { color: var(--red); }
+.log-box .log-info { color: var(--blue); }
+
+/* ============ EMPTY STATE ============ */
+.empty-admin {
+  text-align: center; padding: 60px 24px;
+  color: var(--text-3);
+  grid-column: 1 / -1;
+}
+.empty-admin .icon { font-size: 3rem; opacity: 0.5; margin-bottom: 12px; }
+.empty-admin h4 { font-size: 1.05rem; color: var(--text-2); margin-bottom: 6px; }
+.empty-admin p { font-size: 0.85rem; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 720px) {
+  .screen { padding: 16px; }
+  .auth-wrap { padding: 28px 22px; margin-top: 4vh; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .topbar { padding: 14px; }
+  .topbar-actions { width: 100%; }
+  .tabs { padding: 4px; }
+  .tab { padding: 9px 16px; font-size: 0.82rem; flex: 1; text-align: center; }
+  .section-card { padding: 20px; }
+  .modal-body { padding: 18px; }
+  .modal-header, .modal-footer { padding: 16px 18px; }
+  .image-uploader { flex-direction: column; }
+  .image-preview { width: 100%; aspect-ratio: 16/10; height: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== TOASTS ==================== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ==================== SCREEN 1: SETUP (First Time) ==================== -->
+<div class="screen" id="setupScreen">
+  <div class="auth-wrap">
+    <div class="auth-icon">⚙️</div>
+    <h1>First-Time Setup</h1>
+    <p class="subtitle">Connect your GitHub repo & create admin password</p>
+
+    <div class="alert alert-error" id="setupError"></div>
+
+    <div class="field">
+      <label>GitHub Username</label>
+      <input type="text" id="setupGhUser" placeholder="e.g. NamelssX2" autocomplete="off" />
+      <p class="hint">Your GitHub username (not email)</p>
+    </div>
+
+    <div class="field">
+      <label>GitHub Repository</label>
+      <input type="text" id="setupGhRepo" placeholder="e.g. rewardrush" autocomplete="off" />
+      <p class="hint">Repo name only, not full URL</p>
+    </div>
+
+    <div class="field">
+      <label>GitHub Personal Access Token</label>
+      <input type="password" id="setupGhToken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
+      <p class="hint">Needs <strong>repo</strong> scope. <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Generate token →</a></p>
+    </div>
+
+    <div class="field">
+      <label>Admin Password</label>
+      <input type="password" id="setupPassword" placeholder="Create a strong password" autocomplete="new-password" />
+      <p class="hint">Min 6 characters. You'll use this to login.</p>
+    </div>
+
+    <div class="field">
+      <label>Confirm Password</label>
+      <input type="password" id="setupPasswordConfirm" placeholder="Re-enter password" autocomplete="new-password" />
+    </div>
+
+    <button class="btn btn-primary btn-full" id="setupBtn">
+      🔒 Save & Continue
+    </button>
+  </div>
+</div>
+
+<!-- ==================== SCREEN 2: LOGIN ==================== -->
+<div class="screen" id="loginScreen">
+  <div class="auth-wrap">
+    <div class="auth-icon">🔐</div>
+    <h1>Admin Login</h1>
+    <p class="subtitle">Enter your password to continue</p>
+
+    <div class="alert alert-error" id="loginError"></div>
+
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" />
+    </div>
+
+    <button class="btn btn-primary btn-full" id="loginBtn">
+      🚀 Login
+    </button>
+
+    <div style="text-align:center; margin-top: 20px;">
+      <button class="btn btn-ghost btn-sm" id="resetSetupBtn" style="font-size: 0.78rem;">
+        ⚠️ Reset Setup
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SCREEN 3: DASHBOARD ==================== -->
+<div class="screen" id="dashboardScreen">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="brand-logo">R</div>
+      <div class="brand-info">
+        <h2>RewardRush Admin</h2>
+        <p id="repoInfo">Loading...</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a href="https://rewardrush.online" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">🌐 View Site</a>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn">🚪 Logout</button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="offers">📦 Offers</button>
+    <button class="tab" data-tab="settings">🎨 Settings</button>
+    <button class="tab" data-tab="publish">🚀 Publish</button>
+    <button class="tab" data-tab="account">👤 Account</button>
+  </div>
+
+  <!-- ==================== TAB: OFFERS ==================== -->
+  <div class="tab-content active" id="tab-offers">
+    <div class="section-card">
+      <div class="offers-toolbar">
+        <input type="search" class="search-mini" id="adminSearch" placeholder="🔍 Search offers..." />
+        <button class="btn btn-primary btn-sm" id="addOfferBtn">➕ Add New Offer</button>
+      </div>
+      <div class="admin-offers-list" id="adminOffersList"></div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: SETTINGS ==================== -->
+  <div class="tab-content" id="tab-settings">
+    <div class="section-card">
+      <h3>🎨 Theme Colors</h3>
+      <p class="desc">Change the accent color across your entire website.</p>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Primary Color</label>
+          <div class="color-picker-row">
+            <input type="color" id="themePrimary" value="#f5c518" />
+            <input type="text" id="themePrimaryHex" value="#f5c518" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Secondary Color</label>
+          <div class="color-picker-row">
+            <input type="color" id="themeSecondary" value="#e6a800" />
+            <input type="text" id="themeSecondaryHex" value="#e6a800" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3>📝 Hero Text</h3>
+      <p class="desc">The main heading area on your homepage.</p>
+
+      <div class="field">
+        <label>Badge Text</label>
+        <input type="text" id="heroBadge" placeholder="Live Rewards Available Now" />
+      </div>
+      <div class="field">
+        <label>Main Title (HTML allowed)</label>
+        <input type="text" id="heroTitle" placeholder="Your Next <span class='highlight'>Big Win</span> Starts Here" />
+      </div>
+      <div class="field">
+        <label>Subtitle</label>
+        <textarea id="heroSubtitle" placeholder="Claim exclusive sweepstakes..."></textarea>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3>⏱️ Countdown Timer</h3>
+      <p class="desc">Show a countdown timer on homepage.</p>
+
+      <div class="toggle-row">
+        <div class="label-wrap">
+          <label>Enable Countdown</label>
+          <p>Show the offer refresh timer</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="countdownEnabled" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label>Refresh Cycle (hours)</label>
+        <select id="countdownHours">
+          <option value="2">Every 2 hours</option>
+          <option value="4">Every 4 hours</option>
+          <option value="6" selected>Every 6 hours</option>
+          <option value="12">Every 12 hours</option>
+          <option value="24">Every 24 hours</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3>🔍 SEO Settings</h3>
+      <p class="desc">Meta information for search engines.</p>
+
+      <div class="field">
+        <label>Meta Title</label>
+        <input type="text" id="metaTitle" placeholder="RewardRush — Claim Exclusive Rewards" />
+      </div>
+      <div class="field">
+        <label>Meta Description</label>
+        <textarea id="metaDescription" placeholder="Claim exclusive rewards..."></textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="saveSettingsBtn">💾 Save Settings</button>
+  </div>
+
+  <!-- ==================== TAB: PUBLISH ==================== -->
+  <div class="tab-content" id="tab-publish">
+    <div class="section-card">
+      <h3>🚀 Publish to Live Website</h3>
+      <p class="desc">Save your changes to GitHub → Netlify auto-deploys in ~30 seconds.</p>
+
+      <div class="publish-status">
+        <div class="status-row">
+          <span>Local Changes</span>
+          <span class="status-badge pending" id="statusLocal">No changes</span>
+        </div>
+        <div class="status-row">
+          <span>Last Publish</span>
+          <span id="statusLastPublish" style="color: var(--text-3); font-size: 0.82rem;">Never</span>
+        </div>
+        <div class="status-row">
+          <span>Live Site</span>
+          <a href="https://rewardrush.online" target="_blank" rel="noopener" style="color: var(--gold); font-size: 0.85rem;">rewardrush.online →</a>
+        </div>
+      </div>
+
+      <div class="publish-buttons">
+        <button class="btn btn-primary" id="publishBtn">🚀 Publish to Live</button>
+        <button class="btn btn-ghost" id="previewBtn">👁️ Preview Changes</button>
+        <button class="btn btn-ghost" id="reloadBtn">🔄 Reload from GitHub</button>
+      </div>
+
+      <div class="log-box" id="publishLog" style="display:none;"></div>
+    </div>
+
+    <div class="section-card">
+      <h3>💾 Backup & Restore</h3>
+      <p class="desc">Download or upload your offers data.</p>
+
+      <div class="publish-buttons">
+        <button class="btn btn-ghost" id="exportBtn">📥 Export JSON</button>
+        <label class="btn btn-ghost" style="cursor:pointer;">
+          📤 Import JSON
+          <input type="file" id="importFile" accept=".json" style="display:none;" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: ACCOUNT ==================== -->
+  <div class="tab-content" id="tab-account">
+    <div class="section-card">
+      <h3>👤 Account Information</h3>
+      <p class="desc">Your GitHub and admin credentials.</p>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>GitHub Username</label>
+          <input type="text" id="accGhUser" readonly />
+        </div>
+        <div class="field">
+          <label>GitHub Repo</label>
+          <input type="text" id="accGhRepo" readonly />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>GitHub Token (masked)</label>
+        <input type="text" id="accGhToken" readonly />
+      </div>
+
+      <button class="btn btn-ghost btn-sm" id="updateTokenBtn">🔄 Update Token</button>
+    </div>
+
+    <div class="section-card">
+      <h3>🔑 Change Password</h3>
+      <p class="desc">Update your admin login password.</p>
+
+      <div class="field">
+        <label>Current Password</label>
+        <input type="password" id="pwdCurrent" />
+      </div>
+      <div class="field">
+        <label>New Password</label>
+        <input type="password" id="pwdNew" />
+      </div>
+      <div class="field">
+        <label>Confirm New Password</label>
+        <input type="password" id="pwdNewConfirm" />
+      </div>
+
+      <button class="btn btn-primary btn-sm" id="changePasswordBtn">🔒 Update Password</button>
+    </div>
+
+    <div class="section-card" style="border-color: rgba(239,68,68,0.25);">
+      <h3 style="color: var(--red);">⚠️ Danger Zone</h3>
+      <p class="desc">These actions cannot be undone.</p>
+
+      <button class="btn btn-danger btn-sm" id="clearAllBtn">🗑️ Clear All Local Data</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== OFFER EDIT MODAL ==================== -->
+<div class="modal-overlay" id="offerModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Add New Offer</h3>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="field">
+        <label>Offer URL (for auto-detect)</label>
+        <input type="url" id="f_offerUrl" placeholder="https://advertiser.com/offer-page" />
+        <p class="hint">Paste the offer URL and click <strong>Auto-Detect</strong> to fill title, image, description automatically.</p>
+        <button class="btn btn-ghost btn-sm" id="autoDetectBtn" style="margin-top:8px;">🪄 Auto-Detect from URL</button>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--border); margin: 20px 0;" />
+
+      <div class="field">
+        <label>Offer Title *</label>
+        <input type="text" id="f_title" placeholder="Win a $500 Amazon Gift Card" />
+      </div>
+
+      <div class="field">
+        <label>Description</label>
+        <textarea id="f_description" placeholder="Short compelling description..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Image</label>
+        <div class="image-uploader">
+          <div class="image-preview" id="imagePreview">No image</div>
+          <div class="image-controls">
+            <input type="text" id="f_image" placeholder="Paste image URL or upload" />
+            <div class="image-buttons">
+              <label>
+                📤 Upload
+                <input type="file" id="imageFile" accept="image/*" style="display:none;" />
+              </label>
+              <button type="button" id="clearImageBtn">🗑️ Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Category *</label>
+          <input type="text" id="f_category" placeholder="e.g. Gift Card, Tech, Travel" list="categoryList" />
+          <datalist id="categoryList">
+            <option value="Gift Card" />
+            <option value="Tech" />
+            <option value="Shopping" />
+            <option value="Travel" />
+            <option value="Gaming" />
+            <option value="Cash" />
+            <option value="Food" />
+          </datalist>
+        </div>
+        <div class="field">
+          <label>Badge</label>
+          <select id="f_badgeType">
+            <option value="">None</option>
+            <option value="hot">🔥 HOT</option>
+            <option value="new">✨ NEW</option>
+            <option value="premium">👑 PREMIUM</option>
+            <option value="exclusive">💎 EXCLUSIVE</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Reward Value ($)</label>
+          <input type="number" id="f_rewardValue" placeholder="500" />
+        </div>
+        <div class="field">
+          <label>Entries Count</label>
+          <input type="number" id="f_entries" placeholder="12847" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>CTA Button Text</label>
+        <input type="text" id="f_ctaText" placeholder="Claim Now" value="Claim Now" />
+      </div>
+
+      <div class="field">
+        <label>Affiliate Link *</label>
+        <input type="url" id="f_link" placeholder="https://your-offer-link.com/..." />
+        <p class="hint">Auto-added with rel="nofollow sponsored" for SEO</p>
+      </div>
+
+      <div class="toggle-row">
+        <div class="label-wrap">
+          <label>⭐ Featured Offer</label>
+          <p>Pin this offer to the top of the grid</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="f_featured" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="label-wrap">
+          <label>✅ Active</label>
+          <p>Show this offer on the website</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="f_active" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="modalCancel">Cancel</button>
+      <button class="btn btn-primary" id="modalSave">💾 Save Offer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     CONFIG & STATE
+     ============================================================ */
+  const KEYS = {
+    config: 'rr_admin_config',
+    password: 'rr_admin_password',
+    offers: 'rr_admin_offers',
+    settings: 'rr_admin_settings',
+    lastPublish: 'rr_admin_last_publish',
+    ghSha: 'rr_admin_gh_sha'
+  };
+
+  const DEFAULT_SETTINGS = {
+    heroBadge: 'Live Rewards Available Now',
+    heroTitle: 'Your Next <span class="highlight">Big Win</span> Starts Here',
+    heroSubtitle: 'Claim exclusive sweepstakes entries, unlock premium email-submit offers, and discover rewards curated for US users.',
+    themePrimary: '#f5c518',
+    themeSecondary: '#e6a800',
+    countdownEnabled: true,
+    countdownHours: 6,
+    metaTitle: 'RewardRush — Claim Exclusive Rewards & Sweepstakes',
+    metaDescription: 'Claim exclusive rewards, sweepstakes entries, and premium offers on RewardRush.'
+  };
+
+  let state = {
+    offers: [],
+    settings: { ...DEFAULT_SETTINGS },
+    editingId: null,
+    hasUnsavedChanges: false
+  };
+
+  /* ============================================================
+     UTILITIES
+     ============================================================ */
+  function $(id) { return document.getElementById(id); }
+  function show(el) { if (el) el.classList.add('active'); }
+  function hide(el) { if (el) el.classList.remove('active'); }
+
+  function hashPassword(pwd) {
+    // Simple hash — good enough for client-side gate
+    let h = 5381;
+    for (let i = 0; i < pwd.length; i++) {
+      h = ((h << 5) + h) + pwd.charCodeAt(i);
+      h = h & 0xffffffff;
+    }
+    return 'h_' + Math.abs(h).toString(36) + '_' + pwd.length;
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function uid() {
+    return 'offer-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7);
+  }
+
+  function toast(msg, type) {
+    const c = $('toastContainer');
+    const t = document.createElement('div');
+    t.className = 'toast ' + (type || 'info');
+    const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+    t.innerHTML = '<span>' + (icons[type] || 'ℹ️') + '</span><span>' + escapeHtml(msg) + '</span>';
+    c.appendChild(t);
+    setTimeout(() => {
+      t.classList.add('hide');
+      setTimeout(() => t.remove(), 300);
+    }, 3500);
+  }
+
+  function logToBox(msg, type) {
+    const box = $('publishLog');
+    box.style.display = 'block';
+    const line = document.createElement('div');
+    line.className = 'log-line log-' + (type || 'info');
+    const time = new Date().toLocaleTimeString();
+    line.textContent = '[' + time + '] ' + msg;
+    box.appendChild(line);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  /* ============================================================
+     LOCAL STORAGE
+     ============================================================ */
+  function getConfig() {
+    try { return JSON.parse(localStorage.getItem(KEYS.config) || 'null'); }
+    catch (e) { return null; }
+  }
+  function setConfig(cfg) {
+    localStorage.setItem(KEYS.config, JSON.stringify(cfg));
+  }
+  function getStoredOffers() {
+    try { return JSON.parse(localStorage.getItem(KEYS.offers) || '[]'); }
+    catch (e) { return []; }
+  }
+  function setStoredOffers(o) {
+    localStorage.setItem(KEYS.offers, JSON.stringify(o));
+  }
+  function getStoredSettings() {
+    try { return JSON.parse(localStorage.getItem(KEYS.settings) || 'null'); }
+    catch (e) { return null; }
+  }
+  function setStoredSettings(s) {
+    localStorage.setItem(KEYS.settings, JSON.stringify(s));
+  }
+
+  /* ============================================================
+     GITHUB API
+     ============================================================ */
+  async function ghGetFile() {
+    const cfg = getConfig();
+    if (!cfg) throw new Error('Not configured');
+    const url = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/contents/data/offers.json`;
+    const res = await fetch(url + '?t=' + Date.now(), {
+      headers: {
+        'Authorization': 'token ' + cfg.ghToken,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if (!res.ok) {
+      if (res.status === 404) return { data: null, sha: null };
+      if (res.status === 401) throw new Error('Invalid GitHub token');
+      if (res.status === 403) throw new Error('Rate limit / no permission');
+      throw new Error('GitHub error ' + res.status);
+    }
+    const json = await res.json();
+    const content = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
+    return {
+      data: JSON.parse(content),
+      sha: json.sha
+    };
+  }
+
+  async function ghSaveFile(data, sha) {
+    const cfg = getConfig();
+    if (!cfg) throw new Error('Not configured');
+    const url = `https://api.github.com/repos/${cfg.ghUser}/${cfg.ghRepo}/contents/data/offers.json`;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    const body = {
+      message: 'Update offers via admin panel — ' + new Date().toISOString(),
+      content: content
+    };
+    if (sha) body.sha = sha;
+
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + cfg.ghToken,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'GitHub save failed: ' + res.status);
+    }
+    return await res.json();
+  }
+
+  /* ============================================================
+     SCREEN ROUTING
+     ============================================================ */
+  function showScreen(name) {
+    ['setupScreen', 'loginScreen', 'dashboardScreen'].forEach((id) => {
+      $('loginScreen').classList.remove('active');
+      $('setupScreen').classList.remove('active');
+      $('dashboardScreen').classList.remove('active');
+    });
+    $(name).classList.add('active');
+  }
+
+  async function bootApp() {
+    const cfg = getConfig();
+    const pwd = localStorage.getItem(KEYS.password);
+
+    if (!cfg || !pwd) {
+      showScreen('setupScreen');
+      return;
+    }
+
+    // Has config + password → show login
+    showScreen('loginScreen');
+    setTimeout(() => $('loginPassword').focus(), 200);
+  }
+
+  /* ============================================================
+     SETUP
+     ============================================================ */
+  $('setupBtn').addEventListener('click', () => {
+    const ghUser = $('setupGhUser').value.trim();
+    const ghRepo = $('setupGhRepo').value.trim();
+    const ghToken = $('setupGhToken').value.trim();
+    const pwd = $('setupPassword').value;
+    const pwdC = $('setupPasswordConfirm').value;
+    const err = $('setupError');
+
+    err.classList.remove('show');
+
+    if (!ghUser || !ghRepo || !ghToken || !pwd) {
+      err.textContent = 'All fields are required';
+      err.classList.add('show');
+      return;
+    }
+    if (!ghToken.startsWith('ghp_') && !ghToken.startsWith('github_pat_')) {
+      err.textContent = 'Token should start with "ghp_" or "github_pat_"';
+      err.classList.add('show');
+      return;
+    }
+    if (pwd.length < 6) {
+      err.textContent = 'Password must be at least 6 characters';
+      err.classList.add('show');
+      return;
+    }
+    if (pwd !== pwdC) {
+      err.textContent = 'Passwords do not match';
+      err.classList.add('show');
+      return;
+    }
+
+    setConfig({ ghUser, ghRepo, ghToken });
+    localStorage.setItem(KEYS.password, hashPassword(pwd));
+
+    toast('Setup complete!', 'success');
+    bootApp();
+  });
+
+  /* ============================================================
+     LOGIN
+     ============================================================ */
+  function doLogin() {
+    const pwd = $('loginPassword').value;
+    const stored = localStorage.getItem(KEYS.password);
+    const err = $('loginError');
+    err.classList.remove('show');
+
+    if (!pwd) return;
+
+    if (hashPassword(pwd) === stored) {
+      sessionStorage.setItem('rr_logged_in', '1');
+      showScreen('dashboardScreen');
+      loadDashboard();
+    } else {
+      err.textContent = 'Incorrect password';
+      err.classList.add('show');
+      $('loginPassword').value = '';
+    }
+  }
+
+  $('loginBtn').addEventListener('click', doLogin);
+  $('loginPassword').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  $('resetSetupBtn').addEventListener('click', () => {
+    if (!confirm('This will erase your saved config and password. Continue?')) return;
+    localStorage.removeItem(KEYS.config);
+    localStorage.removeItem(KEYS.password);
+    bootApp();
+  });
+
+  /* ============================================================
+     DASHBOARD LOAD
+     ============================================================ */
+  async function loadDashboard() {
+    const cfg = getConfig();
+    if (!cfg) return bootApp();
+
+    $('repoInfo').textContent = cfg.ghUser + '/' + cfg.ghRepo;
+    $('accGhUser').value = cfg.ghUser;
+    $('accGhRepo').value = cfg.ghRepo;
+    $('accGhToken').value = cfg.ghToken.slice(0, 8) + '••••••••' + cfg.ghToken.slice(-4);
+
+    // Load local first
+    let localOffers = getStoredOffers();
+    let localSettings = getStoredSettings() || { ...DEFAULT_SETTINGS };
+
+    // Try to fetch from GitHub
+    try {
+      toast('Syncing with GitHub...', 'info');
+      const remote = await ghGetFile();
+      if (remote.data) {
+        // Use local if newer (unsaved edits), otherwise remote
+        if (localOffers.length === 0 || !localStorage.getItem('rr_admin_dirty')) {
+          state.offers = remote.data.offers || [];
+          state.settings = { ...DEFAULT_SETTINGS, ...(remote.data.settings || {}) };
+          setStoredOffers(state.offers);
+          setStoredSettings(state.settings);
+          localStorage.setItem(KEYS.ghSha, remote.sha);
+        } else {
+          state.offers = localOffers;
+          state.settings = localSettings;
+        }
+      } else {
+        state.offers = localOffers;
+        state.settings = localSettings;
+      }
+    } catch (e) {
+      toast('GitHub load failed: ' + e.message, 'error');
+      state.offers = localOffers;
+      state.settings = localSettings;
+    }
+
+    renderOffersList();
+    renderSettings();
+    updatePublishStatus();
+  }
+
+  /* ============================================================
+     TABS
+     ============================================================ */
+  document.querySelectorAll('.tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach((c) => c.classList.remove('active'));
+      tab.classList.add('active');
+      $('tab-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ============================================================
+     OFFERS LIST RENDER
+     ============================================================ */
+  function renderOffersList() {
+    const list = $('adminOffersList');
+    const search = ($('adminSearch').value || '').toLowerCase().trim();
+
+    let offers = state.offers.slice();
+    if (search) {
+      offers = offers.filter((o) =>
+        (o.title || '').toLowerCase().includes(search) ||
+        (o.category || '').toLowerCase().includes(search)
+      );
+    }
+
+    // Sort by order
+    offers.sort((a, b) => (a.order || 999) - (b.order || 999));
+
+    if (!offers.length) {
+      list.innerHTML = `
+        <div class="empty-admin">
+          <div class="icon">📦</div>
+          <h4>No offers yet</h4>
+          <p>Click "Add New Offer" to get started</p>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = offers.map((o) => {
+      const badge = o.badge
+        ? `<span class="mini-badge ${escapeHtml((o.badgeType || 'hot').toLowerCase())}">${escapeHtml(o.badge)}</span>`
+        : '';
+      const featured = o.featured ? '<span class="mini-badge featured">⭐ Featured</span>' : '';
+      const off = o.active === false ? '<span class="mini-badge off">Disabled</span>' : '';
+
+      return `
+        <div class="admin-offer-card ${o.active === false ? 'disabled' : ''}">
+          <img class="admin-offer-img" src="${escapeHtml(o.image || '')}" alt="" onerror="this.style.display='none'" />
+          <div class="admin-offer-body">
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
+              ${badge}${featured}${off}
+            </div>
+            <div class="admin-offer-cat">${escapeHtml(o.category || '—')}</div>
+            <div class="admin-offer-title">${escapeHtml(o.title || 'Untitled')}</div>
+            <div class="admin-offer-meta">
+              ${o.rewardText ? '💰 ' + escapeHtml(o.rewardText) : ''}
+              ${o.entries ? ' • ' + Number(o.entries).toLocaleString() + ' entries' : ''}
+            </div>
+            <div class="admin-offer-actions">
+              <button class="btn btn-ghost btn-sm" onclick="window.__rr.editOffer('${escapeHtml(o.id)}')">✏️ Edit</button>
+              <button class="btn btn-ghost btn-sm" onclick="window.__rr.dupOffer('${escapeHtml(o.id)}')">📋 Copy</button>
+              <button class="btn btn-danger btn-sm" onclick="window.__rr.delOffer('${escapeHtml(o.id)}')">🗑️</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  /* ============================================================
+     OFFER MODAL
+     ============================================================ */
+  function openOfferModal(offer) {
+    state.editingId = offer ? offer.id : null;
+    $('modalTitle').textContent = offer ? 'Edit Offer' : 'Add New Offer';
+
+    $('f_offerUrl').value = offer && offer.offerUrl ? offer.offerUrl : '';
+    $('f_title').value = offer ? (offer.title || '') : '';
+    $('f_description').value = offer ? (offer.description || '') : '';
+    $('f_image').value = offer ? (offer.image || '') : '';
+    $('f_category').value = offer ? (offer.category || '') : '';
+    $('f_badgeType').value = offer ? (offer.badgeType || '') : '';
+    $('f_rewardValue').value = offer && offer.rewardValue ? offer.rewardValue : '';
+    $('f_entries').value = offer && offer.entries ? offer.entries : '';
+    $('f_ctaText').value = offer && offer.ctaText ? offer.ctaText : 'Claim Now';
+    $('f_link').value = offer ? (offer.link || '') : '';
+    $('f_featured').checked = offer ? !!offer.featured : false;
+    $('f_active').checked = offer ? offer.active !== false : true;
+
+    updateImagePreview();
+    $('offerModal').classList.add('open');
+  }
+
+  function closeOfferModal() {
+    $('offerModal').classList.remove('open');
+    state.editingId = null;
+  }
+
+  function updateImagePreview() {
+    const url = $('f_image').value.trim();
+    const prev = $('imagePreview');
+    if (url) {
+      prev.innerHTML = '<img src="' + escapeHtml(url) + '" onerror="this.parentNode.innerHTML=\'❌ Broken image\'" alt="" />';
+    } else {
+      prev.textContent = 'No image';
+    }
+  }
+
+  $('f_image').addEventListener('input', updateImagePreview);
+
+  // Image file upload
+  $('imageFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 500 * 1024) {
+      toast('Image too large. Keep under 500 KB for best performance.', 'error');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      $('f_image').value = ev.target.result;
+      updateImagePreview();
+      toast('Image loaded', 'success');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  $('clearImageBtn').addEventListener('click', () => {
+    $('f_image').value = '';
+    $('imageFile').value = '';
+    updateImagePreview();
+  });
+
+  $('addOfferBtn').addEventListener('click', () => openOfferModal(null));
+  $('modalClose').addEventListener('click', closeOfferModal);
+  $('modalCancel').addEventListener('click', closeOfferModal);
+  $('offerModal').addEventListener('click', (e) => {
+    if (e.target === $('offerModal')) closeOfferModal();
+  });
+
+  /* ============================================================
+     AUTO-DETECT FROM URL (Microlink API — free, no backend)
+     ============================================================ */
+  $('autoDetectBtn').addEventListener('click', async () => {
+    const url = $('f_offerUrl').value.trim();
+    if (!url) {
+      toast('Paste an offer URL first', 'error');
+      return;
+    }
+    const btn = $('autoDetectBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Detecting...';
+
+    try {
+      const api = 'https://api.microlink.io/?url=' + encodeURIComponent(url) + '&meta=true';
+      const res = await fetch(api);
+      const json = await res.json();
+
+      if (json.status !== 'success') throw new Error('Detection failed');
+
+      const data = json.data || {};
+      if (data.title && !$('f_title').value) $('f_title').value = data.title;
+      if (data.description && !$('f_description').value) $('f_description').value = data.description;
+      if (data.image && data.image.url && !$('f_image').value) {
+        $('f_image').value = data.image.url;
+        updateImagePreview();
+      }
+      if (!$('f_link').value) $('f_link').value = url;
+
+      toast('Auto-detected details!', 'success');
+    } catch (e) {
+      toast('Could not auto-detect. Fill manually.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🪄 Auto-Detect from URL';
+    }
+  });
+
+  /* ============================================================
+     SAVE OFFER
+     ============================================================ */
+  $('modalSave').addEventListener('click', () => {
+    const title = $('f_title').value.trim();
+    const link = $('f_link').value.trim();
+    const category = $('f_category').value.trim();
+
+    if (!title) { toast('Title is required', 'error'); return; }
+    if (!link) { toast('Affiliate link is required', 'error'); return; }
+    if (!category) { toast('Category is required', 'error'); return; }
+
+    const badgeType = $('f_badgeType').value;
+    const badgeMap = { hot: 'HOT', new: 'NEW', premium: 'PREMIUM', exclusive: 'EXCLUSIVE' };
+    const badge = badgeType ? badgeMap[badgeType] : '';
+
+    const rewardValue = parseInt($('f_rewardValue').value, 10) || 0;
+    const rewardText = rewardValue ? '$' + rewardValue.toLocaleString() + ' Value' : '';
+
+    const offerData = {
+      id: state.editingId || uid(),
+      offerUrl: $('f_offerUrl').value.trim(),
+      title,
+      description: $('f_description').value.trim(),
+      image: $('f_image').value.trim(),
+      category,
+      badge,
+      badgeType,
+      rewardValue,
+      rewardText,
+      entries: parseInt($('f_entries').value, 10) || 0,
+      ctaText: $('f_ctaText').value.trim() || 'Claim Now',
+      link,
+      featured: $('f_featured').checked,
+      active: $('f_active').checked
+    };
+
+    if (state.editingId) {
+      const idx = state.offers.findIndex((o) => o.id === state.editingId);
+      if (idx > -1) {
+        offerData.order = state.offers[idx].order || 999;
+        offerData.createdAt = state.offers[idx].createdAt || new Date().toISOString().slice(0, 10);
+        state.offers[idx] = offerData;
+      }
+    } else {
+      const maxOrder = state.offers.reduce((m, o) => Math.max(m, o.order || 0), 0);
+      offerData.order = maxOrder + 1;
+      offerData.createdAt = new Date().toISOString().slice(0, 10);
+      state.offers.push(offerData);
+    }
+
+    setStoredOffers(state.offers);
+    localStorage.setItem('rr_admin_dirty', '1');
+    state.hasUnsavedChanges = true;
+    updatePublishStatus();
+
+    renderOffersList();
+    closeOfferModal();
+    toast('Offer saved locally. Click Publish to go live.', 'success');
+  });
+
+  /* ============================================================
+     OFFER ACTIONS
+     ============================================================ */
+  window.__rr = {
+    editOffer(id) {
+      const o = state.offers.find((x) => x.id === id);
+      if (o) openOfferModal(o);
+    },
+    dupOffer(id) {
+      const o = state.offers.find((x) => x.id === id);
+      if (!o) return;
+      const copy = { ...o, id: uid(), title: o.title + ' (Copy)', createdAt: new Date().toISOString().slice(0, 10) };
+      const maxOrder = state.offers.reduce((m, x) => Math.max(m, x.order || 0), 0);
+      copy.order = maxOrder + 1;
+      state.offers.push(copy);
+      setStoredOffers(state.offers);
+      localStorage.setItem('rr_admin_dirty', '1');
+      state.hasUnsavedChanges = true;
+      updatePublishStatus();
+      renderOffersList();
+      toast('Duplicated', 'success');
+    },
+    delOffer(id) {
+      if (!confirm('Delete this offer?')) return;
+      state.offers = state.offers.filter((o) => o.id !== id);
+      setStoredOffers(state.offers);
+      localStorage.setItem('rr_admin_dirty', '1');
+      state.hasUnsavedChanges = true;
+      updatePublishStatus();
+      renderOffersList();
+      toast('Deleted', 'success');
+    }
+  };
+
+  $('adminSearch').addEventListener('input', renderOffersList);
+
+  /* ============================================================
+     SETTINGS
+     ============================================================ */
+  function renderSettings() {
+    $('heroBadge').value = state.settings.heroBadge || '';
+    $('heroTitle').value = state.settings.heroTitle || '';
+    $('heroSubtitle').value = state.settings.heroSubtitle || '';
+    $('themePrimary').value = state.settings.themePrimary || '#f5c518';
+    $('themePrimaryHex').value = state.settings.themePrimary || '#f5c518';
+    $('themeSecondary').value = state.settings.themeSecondary || '#e6a800';
+    $('themeSecondaryHex').value = state.settings.themeSecondary || '#e6a800';
+    $('countdownEnabled').checked = state.settings.countdownEnabled !== false;
+    $('countdownHours').value = state.settings.countdownHours || 6;
+    $('metaTitle').value = state.settings.metaTitle || '';
+    $('metaDescription').value = state.settings.metaDescription || '';
+  }
+
+  // Sync color pickers
+  $('themePrimary').addEventListener('input', (e) => { $('themePrimaryHex').value = e.target.value; });
+  $('themePrimaryHex').addEventListener('input', (e) => { if (/^#[0-9a-f]{6}$/i.test(e.target.value)) $('themePrimary').value = e.target.value; });
+  $('themeSecondary').addEventListener('input', (e) => { $('themeSecondaryHex').value = e.target.value; });
+  $('themeSecondaryHex').addEventListener('input', (e) => { if (/^#[0-9a-f]{6}$/i.test(e.target.value)) $('themeSecondary').value = e.target.value; });
+
+  $('saveSettingsBtn').addEventListener('click', () => {
+    state.settings = {
+      heroBadge: $('heroBadge').value.trim(),
+      heroTitle: $('heroTitle').value.trim(),
+      heroSubtitle: $('heroSubtitle').value.trim(),
+      themePrimary: $('themePrimary').value,
+      themeSecondary: $('themeSecondary').value,
+      countdownEnabled: $('countdownEnabled').checked,
+      countdownHours: parseInt($('countdownHours').value, 10) || 6,
+      metaTitle: $('metaTitle').value.trim(),
+      metaDescription: $('metaDescription').value.trim()
+    };
+    setStoredSettings(state.settings);
+    localStorage.setItem('rr_admin_dirty', '1');
+    state.hasUnsavedChanges = true;
+    updatePublishStatus();
+    toast('Settings saved locally. Click Publish to go live.', 'success');
+  });
+
+  /* ============================================================
+     PUBLISH
+     ============================================================ */
+  function updatePublishStatus() {
+    const dirty = localStorage.getItem('rr_admin_dirty') === '1';
+    const status = $('statusLocal');
+    if (dirty) {
+      status.textContent = 'Unpublished changes';
+      status.className = 'status-badge pending';
+    } else {
+      status.textContent = 'No changes';
+      status.className = 'status-badge ok';
+    }
+
+    const last = localStorage.getItem(KEYS.lastPublish);
+    if (last) {
+      $('statusLastPublish').textContent = new Date(parseInt(last, 10)).toLocaleString();
+    }
+  }
+
+  $('publishBtn').addEventListener('click', async () => {
+    const btn = $('publishBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Publishing...';
+
+    $('publishLog').innerHTML = '';
+    logToBox('Starting publish...', 'info');
+
+    try {
+      logToBox('Fetching latest from GitHub...', 'info');
+      let sha = null;
+      try {
+        const remote = await ghGetFile();
+        sha = remote.sha;
+        logToBox('Got current SHA: ' + (sha ? sha.slice(0, 8) + '...' : 'none'), 'info');
+      } catch (e) {
+        logToBox('Fetch warning: ' + e.message, 'info');
+      }
+
+      const payload = {
+        settings: { ...state.settings, updatedAt: Date.now() },
+        offers: state.offers
+      };
+
+      logToBox('Committing to GitHub...', 'info');
+      await ghSaveFile(payload, sha);
+      logToBox('✅ Committed successfully!', 'ok');
+      logToBox('Netlify will auto-deploy in ~30 seconds.', 'info');
+
+      localStorage.removeItem('rr_admin_dirty');
+      localStorage.setItem(KEYS.lastPublish, Date.now().toString());
+      state.hasUnsavedChanges = false;
+      updatePublishStatus();
+
+      toast('Published! Live in ~30 seconds.', 'success');
+    } catch (e) {
+      logToBox('❌ Error: ' + e.message, 'err');
+      toast('Publish failed: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🚀 Publish to Live';
+    }
+  });
+
+  $('previewBtn').addEventListener('click', () => {
+    // Save local then open site preview (site reads local in same browser? No — but shows old data)
+    setStoredOffers(state.offers);
+    setStoredSettings(state.settings);
+    window.open('https://rewardrush.online/', '_blank');
+  });
+
+  $('reloadBtn').addEventListener('click', async () => {
+    if (localStorage.getItem('rr_admin_dirty') === '1') {
+      if (!confirm('You have unsaved changes. Reload from GitHub will discard them. Continue?')) return;
+    }
+    localStorage.removeItem('rr_admin_dirty');
+    await loadDashboard();
+    toast('Reloaded from GitHub', 'success');
+  });
+
+  /* ============================================================
+     EXPORT / IMPORT
+     ============================================================ */
+  $('exportBtn').addEventListener('click', () => {
+    const data = { settings: state.settings, offers: state.offers };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rewardrush-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast('Backup downloaded', 'success');
+  });
+
+  $('importFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const json = JSON.parse(ev.target.result);
+        if (!json.offers || !Array.isArray(json.offers)) throw new Error('Invalid format');
+        if (!confirm('This will replace all current offers & settings. Continue?')) return;
+        state.offers = json.offers;
+        state.settings = { ...DEFAULT_SETTINGS, ...(json.settings || {}) };
+        setStoredOffers(state.offers);
+        setStoredSettings(state.settings);
+        localStorage.setItem('rr_admin_dirty', '1');
+        updatePublishStatus();
+        renderOffersList();
+        renderSettings();
+        toast('Imported! Click Publish to go live.', 'success');
+      } catch (err) {
+        toast('Invalid file: ' + err.message, 'error');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  /* ============================================================
+     ACCOUNT
+     ============================================================ */
+  $('updateTokenBtn').addEventListener('click', () => {
+    const newToken = prompt('Enter new GitHub token:');
+    if (!newToken || !newToken.trim()) return;
+    const cfg = getConfig();
+    cfg.ghToken = newToken.trim();
+    setConfig(cfg);
+    toast('Token updated', 'success');
+    loadDashboard();
+  });
+
+  $('changePasswordBtn').addEventListener('click', () => {
+    const cur = $('pwdCurrent').value;
+    const n = $('pwdNew').value;
+    const nc = $('pwdNewConfirm').value;
+    const stored = localStorage.getItem(KEYS.password);
+
+    if (hashPassword(cur) !== stored) { toast('Current password is wrong', 'error'); return; }
+    if (n.length < 6) { toast('New password must be 6+ chars', 'error'); return; }
+    if (n !== nc) { toast('Passwords do not match', 'error'); return; }
+
+    localStorage.setItem(KEYS.password, hashPassword(n));
+    $('pwdCurrent').value = $('pwdNew').value = $('pwdNewConfirm').value = '';
+    toast('Password changed', 'success');
+  });
+
+  $('clearAllBtn').addEventListener('click', () => {
+    if (!confirm('This clears ALL local data including config & password. Site data on GitHub stays. Continue?')) return;
+    Object.values(KEYS).forEach((k) => localStorage.removeItem(k));
+    localStorage.removeItem('rr_admin_dirty');
+    sessionStorage.clear();
+    toast('Cleared. Reloading...', 'success');
+    setTimeout(() => location.reload(), 1000);
+  });
+
+  /* ============================================================
+     LOGOUT
+     ============================================================ */
+  $('logoutBtn').addEventListener('click', () => {
+    if (localStorage.getItem('rr_admin_dirty') === '1') {
+      if (!confirm('You have unpublished changes. Logout anyway?')) return;
+    }
+    sessionStorage.removeItem('rr_logged_in');
+    bootApp();
+  });
+
+  /* ============================================================
+     KEYBOARD SHORTCUTS
+     ============================================================ */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && $('offerModal').classList.contains('open')) {
+      closeOfferModal();
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 's' && $('offerModal').classList.contains('open')) {
+      e.preventDefault();
+      $('modalSave').click();
+    }
+  });
+
+  /* ============================================================
+     BOOT
+     ============================================================ */
+  bootApp();
+
+})();
+</script>
+
+</body>
+</html>
